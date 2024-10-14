@@ -16,8 +16,9 @@ async function checkToken() {
     const response = await api.get('/user');
     console.log('Token is valid. User:', response.data.login);
     
-    const scopesResponse = await api.get('/user/repos');
-    console.log('Token scopes:', scopesResponse.headers['x-oauth-scopes']);
+    console.log('Token scopes:', response.headers['x-oauth-scopes']);
+    console.log('Rate limit remaining:', response.headers['x-ratelimit-remaining']);
+    console.log('Rate limit reset:', new Date(response.headers['x-ratelimit-reset'] * 1000).toLocaleString());
   } catch (error) {
     console.error('Error checking token:', error.response ? error.response.data.message : error.message);
   }
