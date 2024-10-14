@@ -28,19 +28,22 @@ async function pushToGitHub() {
         const contentEncoded = Buffer.from(content).toString('base64');
 
         try {
+          const sha = await getFileSHA(file);
           const response = await api.put(`/repos/${REPO_OWNER}/${REPO_NAME}/contents/${file}`, {
             message: `Update ${file}`,
             content: contentEncoded,
-            sha: await getFileSHA(file),
+            sha: sha,
           });
           console.log(`Successfully pushed ${file} to GitHub`);
         } catch (error) {
-          console.error(`Error pushing ${file}:`);
-          console.error('Status:', error.response.status);
-          console.error('Status Text:', error.response.statusText);
-          console.error('Error Message:', error.response.data.message);
-          if (error.response.data.errors) {
-            console.error('Detailed Errors:', JSON.stringify(error.response.data.errors, null, 2));
+          if (error.response && error.response.status === 409) {
+            console.log(`Conflict detected for ${file}. Attempting to resolve...`);
+            await handleConflict(file, contentEncoded);
+          } else {
+            console.error(`Error pushing ${file}:`);
+            console.error('Status:', error.response.status);
+            console.error('Status Text:', error.response.statusText);
+            console.error('Error Message:', error.response.data.message);
           }
         }
       }
@@ -59,6 +62,24 @@ async function getFileSHA(file) {
       return null; // File doesn't exist yet
     }
     throw error;
+  }
+}
+
+async function handleConflict(file, contentEncoded) {
+  try {
+    const sha = await getFileSHA(file);
+    if (sha) {
+      const response = await api.put(`/repos/${REPO_OWNER}/${REPO_NAME}/contents/${file}`, {
+        message: `Update ${file} (resolved conflict)`,
+        content: contentEncoded,
+        sha: sha,
+      });
+      console.log(`Successfully resolved conflict and pushed ${file} to GitHub`);
+    } else {
+      console.error(`Unable to resolve conflict for ${file}: SHA not found`);
+    }
+  } catch (error) {
+    console.error(`Error resolving conflict for ${file}:`, error.response ? error.response.data.message : error.message);
   }
 }
 
