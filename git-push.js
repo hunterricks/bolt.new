@@ -1,21 +1,10 @@
-const { execSync } = require('child_process');
+const axios = require('axios');
+const fs = require('fs').promises;
+const path = require('path');
 
-function gitPush() {
-  try {
-    // Add all changes
-    execSync('git add .', { stdio: 'inherit' });
+const GITHUB_TOKEN = 'YOUR_GITHUB_TOKEN_HERE';
+const REPO_OWNER = 'hunterricks';
+const REPO_NAME = 'happyhouse';
+const BRANCH = 'main';
 
-    // Commit changes
-    const commitMessage = `Update ${new Date().toISOString()}`;
-    execSync(`git commit -m "${commitMessage}"`, { stdio: 'inherit' });
-
-    // Push to remote
-    execSync('git push origin main', { stdio: 'inherit' });
-
-    console.log('Successfully pushed to GitHub');
-  } catch (error) {
-    console.error('Error pushing to GitHub:', error.message);
-  }
-}
-
-gitPush();
+// ... rest of the script remains the same ...
