@@ -1,0 +1,17 @@
+{
+  "timestamp": "${new Date().toISOString()}",
+  "files": {
+    "App.js": "${encodeURIComponent(require('fs').readFileSync('App.js', 'utf8'))}",
+    "package.json": "${encodeURIComponent(require('fs').readFileSync('package.json', 'utf8'))}",
+    "app.json": "${encodeURIComponent(require('fs').readFileSync('app.json', 'utf8'))}",
+    "push-to-github.js": "${encodeURIComponent(require('fs').readFileSync('push-to-github.js', 'utf8'))}",
+    "src/screens/HomeScreen.js": "${encodeURIComponent(require('fs').readFileSync('src/screens/HomeScreen.js', 'utf8'))}",
+    "src/screens/CategoryScreen.js": "${encodeURIComponent(require('fs').readFileSync('src/screens/CategoryScreen.js', 'utf8'))}",
+    "src/screens/ServiceListScreen.js": "${encodeURIComponent(require('fs').readFileSync('src/screens/ServiceListScreen.js', 'utf8'))}",
+    "src/screens/ServiceDetailScreen.js": "${encodeURIComponent(require('fs').readFileSync('src/screens/ServiceDetailScreen.js', 'utf8'))}",
+    "src/screens/ProfileScreen.js": "${encodeURIComponent(require('fs').readFileSync('src/screens/ProfileScreen.js', 'utf8'))}",
+    "src/screens/RequestFormScreen.js": "${encodeURIComponent(require('fs').readFileSync('src/screens/RequestFormScreen.js', 'utf8'))}",
+    "src/screens/BookingsScreen.js": "${encodeURIComponent(require('fs').readFileSync('src/screens/BookingsScreen.js', 'utf8'))}",
+    "src/screens/NotificationsScreen.js": "${encodeURIComponent(require('fs').readFileSync('src/screens/NotificationsScreen.js', 'utf8'))}"
+  }
+}
